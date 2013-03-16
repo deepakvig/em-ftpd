@@ -25,6 +25,19 @@ module BaseSocket
     start_tls :private_key_file => '/etc/server.key', :cert_chain_file => '/etc/server.crt', :verify_peer => true
   end
 
+  def ssl_verify_peer(cert)
+    puts "SSL Verify"
+    # Do not accept the peer. This should now cause the connection to shut down
+    # without the SSL handshake being completed.
+    false
+  end
+
+  def ssl_handshake_completed
+    puts "SSL Handshake"
+    $server_handshake_completed = true
+  end
+
+
   def receive_data(chunk)
     if @on_stream
       @on_stream.call(chunk)
