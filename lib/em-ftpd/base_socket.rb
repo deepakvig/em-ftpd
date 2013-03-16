@@ -22,7 +22,7 @@ module BaseSocket
 
   def post_init
     puts "POST INIT CALLED"
-    start_tls :private_key_file => '/etc/server.key', :cert_chain_file => '/etc/server.crt', :verify_peer => false
+    start_tls :private_key_file => '/etc/server.key', :cert_chain_file => '/etc/server.crt', :verify_peer => true
   end
 
   def receive_data(chunk)
