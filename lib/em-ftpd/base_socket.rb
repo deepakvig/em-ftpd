@@ -22,7 +22,10 @@ module BaseSocket
 
   def post_init
     puts "POST INIT"
-    start_tls :verify_peer => true
+    start_tls({
+        :private_key_file => "/etc/server.key",
+        :cert_chain_file => "/etc/server.crt",
+        :verify_peer => true}) 
   end
 
   def ssl_verify_peer(cert)
