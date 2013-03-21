@@ -66,8 +66,8 @@ module EM::FTPD
     end
 
     def ssl_handshake_completed
-      send_response "SSL Handshake"
-      @server_handshake_completed = true
+      #send_response "SSL Handshake"
+      #@server_handshake_completed = true
       #true
     end
 
