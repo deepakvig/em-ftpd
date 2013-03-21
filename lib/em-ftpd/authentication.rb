@@ -31,17 +31,17 @@ module EM::FTPD
       #  - the specified username isn't in our system
       #  - the password is wrong
 
-      #@driver.authenticate(@requested_user, param) do |result|
-        #if result
+      @driver.authenticate(@requested_user, param) do |result|
+        if result
           @name_prefix = "/"
           @user = @requested_user
           @requested_user = nil
           send_response "230 OK, password correct"
-        #else
-          #@user = nil
-          #send_response "530 incorrect login. not logged in."
-        #end
-      #end
+        else
+          @user = nil
+          send_response "530 incorrect login. not logged in."
+        end
+      end
     end
 
   end
