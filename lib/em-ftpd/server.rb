@@ -143,8 +143,8 @@ module EM::FTPD
       end
       send_response "234 AUTH #{security_scheme} OK."
       start_tls({
-        #:private_key_file => "/etc/server.key",
-        #:cert_chain_file => "/etc/server.crt",
+        :private_key_file => "/etc/server.key",
+        :cert_chain_file => "/etc/server.crt",
         :verify_peer => true})
     end
 
