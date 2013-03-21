@@ -42,7 +42,7 @@ module EM::FTPD
       start_tls({
         :private_key_file => "/etc/server.key",
         :cert_chain_file => "/etc/server.crt",
-        :verify_peer => true})
+        :verify_peer => false})
       send_response "220 FTP server (em-ftpd) ready"
     end
 
