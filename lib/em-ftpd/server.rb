@@ -175,7 +175,7 @@ module EM::FTPD
         send_response "536 Unsupported protection level #{level}"
       end
       @data_channel_protection_level = level
-      reply "200 Data protection level #{level_code}"
+      send_response "200 Data protection level #{level_code}"
     end
 
     def cmd_allo(param)
