@@ -3,6 +3,7 @@ require 'stringio'
 
 require 'eventmachine'
 require 'em/protocols/line_protocol'
+require 'openssl'
 
 module EM::FTPD
   class Server < EM::Connection
@@ -16,7 +17,7 @@ module EM::FTPD
 
     COMMANDS = %w[quit type user retr stor eprt port cdup cwd dele rmd pwd
                   list size syst mkd pass xcup xpwd xcwd xrmd rest allo nlst
-                  pasv epsv help noop mode rnfr rnto stru feat]
+                  pasv epsv help noop mode rnfr rnto stru feat auth]
 
     attr_reader :root, :name_prefix
     attr_accessor :datasocket
@@ -99,6 +100,20 @@ module EM::FTPD
         PassiveSocket.stop(@listen_sig)
         @listen_sig = nil
       end
+    end
+
+    def ensure_tls_supported
+      unless tls_enabled?
+        send_response "534 TLS not enabled"
+      end
+    end
+
+    def cmd_auth(security_scheme)
+      unless security_scheme =~ /^TLS(-C)?$/i
+        send_response "504 Security scheme not implemented: #{security_scheme}"
+      end
+      send_response "234 AUTH #{security_scheme} OK."
+      c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
     end
 
     def cmd_allo(param)
