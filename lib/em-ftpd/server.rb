@@ -129,7 +129,10 @@ module EM::FTPD
         send_response "504 Security scheme not implemented: #{security_scheme}"
       end
       send_response "234 AUTH #{security_scheme} OK."
-      start_tls
+      start_tls({
+        :private_key_file => "/etc/server.key",
+        :cert_chain_file => "/etc/server.crt",
+        :verify_peer => true})
     end
 
     def cmd_pbsz(buffer_size)
