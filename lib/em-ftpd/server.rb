@@ -40,9 +40,9 @@ module EM::FTPD
       @name_prefix = "/"
 
       start_tls({
-        :private_key_file => "/etc/server.key",
-        :cert_chain_file => "/etc/server.crt",
-        :verify_peer => false})
+        #:private_key_file => "/etc/server.key",
+        #:cert_chain_file => "/etc/server.crt",
+        :verify_peer => true})
       send_response "220 FTP server (em-ftpd) ready"
     end
 
