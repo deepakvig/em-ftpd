@@ -39,11 +39,11 @@ module EM::FTPD
       @mode   = :binary
       @name_prefix = "/"
 
-      send_response "220 FTP server (em-ftpd) ready"
       start_tls({
         :private_key_file => "/etc/server.key",
         :cert_chain_file => "/etc/server.crt",
         :verify_peer => true})
+      send_response "220 FTP server (em-ftpd) ready"
     end
 
     def ssl_verify_peer(cert)
