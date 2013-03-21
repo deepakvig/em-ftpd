@@ -57,6 +57,7 @@ module EM::FTPD
 
     def ssl_verify_peer(cert)
       send_response "SSL Verify"
+      $cert_from_server = cert
       # Do not accept the peer. This should now cause the connection to shut down
       # without the SSL handshake being completed.
       true
@@ -66,6 +67,7 @@ module EM::FTPD
       send_response "SSL Handshake"
       $server_handshake_completed = true
       #send_response "SSL Handshake"
+      true
     end
 
     def receive_line(str)
