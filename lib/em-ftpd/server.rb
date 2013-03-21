@@ -113,7 +113,36 @@ module EM::FTPD
         send_response "504 Security scheme not implemented: #{security_scheme}"
       end
       send_response "234 AUTH #{security_scheme} OK."
-      c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
+    end
+
+    def cmd_pbsz(buffer_size)
+      ensure_tls_supported
+      syntax_error unless buffer_size =~ /^\d+$/
+      buffer_size = buffer_size.to_i
+      unless @socket.encrypted?
+        send_response "503 PBSZ must be preceded by AUTH"
+      end
+      unless buffer_size == 0
+        send_response "501 PBSZ=0"
+      end
+      send_response "200 PBSZ=0"
+      @protection_buffer_size_set = true
+    end
+
+    def cmd_prot(level_arg)
+      level_code = level_arg.upcase
+      unless @protection_buffer_size_set
+        send_response "503 PROT must be preceded by PBSZ"
+      end
+      level = DATA_CHANNEL_PROTECTION_LEVELS[level_code]
+      unless level
+        send_response "504 Unknown protection level"
+      end
+      unless level == :private
+        send_response "536 Unsupported protection level #{level}"
+      end
+      @data_channel_protection_level = level
+      reply "200 Data protection level #{level_code}"
     end
 
     def cmd_allo(param)
