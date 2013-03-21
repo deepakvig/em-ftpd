@@ -22,6 +22,7 @@ module BaseSocket
 
   def post_init
     puts "POST INIT"
+    start_tls
   end
 
 
