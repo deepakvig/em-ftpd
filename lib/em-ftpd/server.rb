@@ -360,6 +360,7 @@ module EM::FTPD
     # the server before the data socket is ready.
     #
     def send_outofband_data(data, restart_pos = 0)
+      send_response "425 Error establishing connection"
       wait_for_datasocket do |datasocket|
         if datasocket.nil?
           send_response "425 Error establishing connection"
