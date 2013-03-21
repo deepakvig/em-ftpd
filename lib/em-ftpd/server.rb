@@ -136,7 +136,7 @@ module EM::FTPD
     end
 
     def cmd_pbsz(buffer_size)
-      ensure_tls_supported
+      send_response "Buffer Size"
       syntax_error unless buffer_size =~ /^\d+$/
       buffer_size = buffer_size.to_i
       unless @socket.encrypted?
