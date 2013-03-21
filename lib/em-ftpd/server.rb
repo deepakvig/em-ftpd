@@ -17,7 +17,7 @@ module EM::FTPD
 
     COMMANDS = %w[quit type user retr stor eprt port cdup cwd dele rmd pwd
                   list size syst mkd pass xcup xpwd xcwd xrmd rest allo nlst
-                  pasv epsv help noop mode rnfr rnto stru feat auth]
+                  pasv epsv help noop mode rnfr rnto stru feat auth pbsz prot]
 
     attr_reader :root, :name_prefix
     attr_accessor :datasocket
@@ -40,6 +40,18 @@ module EM::FTPD
       @name_prefix = "/"
 
       send_response "220 FTP server (em-ftpd) ready"
+    end
+
+    def ssl_verify_peer(cert)
+      send_response "SSL Verify"
+      # Do not accept the peer. This should now cause the connection to shut down
+      # without the SSL handshake being completed.
+      false
+    end
+
+    def ssl_handshake_completed
+      send_response "SSL Handshake"
+      $server_handshake_completed = true
     end
 
     def receive_line(str)
