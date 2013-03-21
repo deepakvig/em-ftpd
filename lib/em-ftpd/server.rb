@@ -56,16 +56,17 @@ module EM::FTPD
     end
 
     def ssl_verify_peer(cert)
-      send_response "SSL Verify"
-      $cert_from_server = cert
+      #send_response "SSL Verify"
+      #$cert_from_server = cert
       # Do not accept the peer. This should now cause the connection to shut down
       # without the SSL handshake being completed.
+      send_response cert
       true
     end
 
     def ssl_handshake_completed
       send_response "SSL Handshake"
-      $server_handshake_completed = true
+      #$server_handshake_completed = true
       #send_response "SSL Handshake"
       true
     end
@@ -142,8 +143,8 @@ module EM::FTPD
       end
       send_response "234 AUTH #{security_scheme} OK."
       start_tls({
-        :private_key_file => "/etc/server.key",
-        :cert_chain_file => "/etc/server.crt",
+        #:private_key_file => "/etc/server.key",
+        #:cert_chain_file => "/etc/server.crt",
         :verify_peer => true})
     end
 
