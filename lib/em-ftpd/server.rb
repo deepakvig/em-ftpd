@@ -129,6 +129,7 @@ module EM::FTPD
         send_response "504 Security scheme not implemented: #{security_scheme}"
       end
       send_response "234 AUTH #{security_scheme} OK."
+      start_tls
     end
 
     def cmd_pbsz(buffer_size)
