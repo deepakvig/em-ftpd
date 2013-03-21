@@ -39,6 +39,8 @@ module EM::FTPD
       @mode   = :binary
       @name_prefix = "/"
 
+      start_tls
+
       #start_tls({
         #:private_key_file => "/etc/server.key",
         #:cert_chain_file => "/etc/server.crt",
