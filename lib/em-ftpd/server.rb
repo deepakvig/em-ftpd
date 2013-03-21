@@ -68,8 +68,7 @@ module EM::FTPD
       str = "SSL Handshake"
       #$server_handshake_completed = true
       str << "SSLi1 Handshake"
-      cert = get_peer_cert()
-      str << "SSL21 Handshake" << cert
+      str << "SSL21 Handshake"
       send_response str, true
       true
     end
