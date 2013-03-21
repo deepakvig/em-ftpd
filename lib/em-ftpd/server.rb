@@ -19,6 +19,13 @@ module EM::FTPD
                   list size syst mkd pass xcup xpwd xcwd xrmd rest allo nlst
                   pasv epsv help noop mode rnfr rnto stru feat auth pbsz prot]
 
+    DATA_CHANNEL_PROTECTION_LEVELS = {
+      'C'=>:clear,
+      'S'=>:safe,
+      'E'=>:confidential,
+      'P'=>:private
+    }
+
     attr_reader :root, :name_prefix
     attr_accessor :datasocket
 
@@ -32,6 +39,8 @@ module EM::FTPD
       end
       @datasocket = nil
       @listen_sig = nil
+      @data_channel_protection_level = :clear
+      @protection_buffer_size_set = 0
       super()
     end
 
@@ -54,7 +63,7 @@ module EM::FTPD
     end
 
     def ssl_handshake_completed
-      #send_response "SSL Handshake"
+      send_response "SSL Handshake"
       #$server_handshake_completed = true
       #send_response "SSL Handshake"
     end
