@@ -41,7 +41,7 @@ module EM::FTPD
           #@user = nil
           #send_response "530 incorrect login. not logged in."
         #end
-      end
+      #end
     end
 
   end
